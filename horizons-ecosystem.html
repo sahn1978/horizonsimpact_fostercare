@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The HORIZONS Ecosystem · University of Miami</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ground:#131a2c; --ink:#EFE8D8; --ink-soft:#B7BFD2; --ink-dim:#7d879e;
+    --line:rgba(239,232,216,.12); --hot:#F3EAD0; --thread:#5b6478; --co:#EAD6A0; --tie:#7FE0D4;
+    --s-safety:#E8A15A; --s-perm:#6FC7A0; --s-well:#EAD6A0; --s-sys:#C0A0E0;
+    --cA:#4FD1C5; --cB:#F0898B; --cC:#88CE7C; --cD:#E96A6A;
+    --cE:#7FB3F0; --cF:#B79BE6; --cG:#E6B24A; --cH:#E8935A; --cI:#E689C0;
+  }
+  *{box-sizing:border-box} html,body{margin:0;padding:0}
+  body{background:radial-gradient(1200px 780px at 26% 8%,#223056 0%,rgba(34,48,86,0) 60%),
+      radial-gradient(1000px 720px at 86% 94%,#1e2a4c 0%,rgba(30,42,76,0) 62%),var(--ground);
+    color:var(--ink);font-family:"Space Grotesk",system-ui,sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased;}
+  header.top{max-width:1480px;margin:0 auto;padding:32px 28px 6px}
+  .eyebrow{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:var(--cA);font-weight:600;margin:0 0 12px}
+  h1{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:clamp(28px,4.6vw,50px);line-height:1.02;margin:0 0 12px;letter-spacing:-.01em}
+  h1 em{font-style:italic;color:var(--s-well)}
+  .switch{display:inline-flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:999px;overflow:hidden;margin:2px 0 14px}
+  .switch button{font-family:"Space Grotesk";font-size:13.5px;font-weight:500;padding:9px 16px;background:transparent;color:var(--ink-soft);border:0;cursor:pointer;transition:.15s;border-right:1px solid var(--line)}
+  .switch button:last-child{border-right:0}
+  .switch button.on{background:var(--hot);color:#101627}
+  .thesis{max-width:870px;color:var(--ink-soft);font-size:clamp(14px,1.5vw,16px);line-height:1.55;margin:0 0 4px}
+  .thesis b{color:var(--ink);font-weight:600}
+  .howto{color:var(--ink-dim);font-size:13.5px;margin:10px 0 0}
+  .howto b{color:var(--ink);font-weight:600}
+  .wrap{max-width:1480px;margin:0 auto;padding:12px 20px 60px;display:grid;grid-template-columns:minmax(0,1.85fr) minmax(320px,1fr);gap:26px;align-items:start}
+  .stage{background:linear-gradient(160deg,rgba(255,255,255,.02),rgba(255,255,255,0));border:1px solid var(--line);border-radius:20px;padding:6px;overflow:hidden}
+  svg#map{width:100%;height:auto;display:block}
+  .panel{min-width:0;position:sticky;top:14px}
+  .card{background:rgba(255,255,255,.028);border:1px solid var(--line);border-radius:16px;padding:16px 16px 15px;margin-bottom:15px}
+  .kick{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-dim);margin:0 0 8px}
+  #detail h2{font-family:"Fraunces",serif;font-weight:600;font-size:22px;margin:0 0 3px;line-height:1.12}
+  #detail .cites{font-family:"Fraunces",serif;font-size:15px;color:var(--co);margin:0 0 8px}
+  #detail .role{color:var(--ink-soft);font-size:13.5px;line-height:1.52;margin:0 0 6px}
+  .angles{list-style:none;padding:0;margin:8px 0 0}
+  .angles li{font-size:13.5px;color:var(--ink-soft);line-height:1.5;padding:8px 0 8px 16px;border-left:2px solid var(--ac,var(--s-well));margin-bottom:6px;background:rgba(255,255,255,.02)}
+  .chips{display:flex;flex-wrap:wrap;gap:7px;margin:9px 0 2px}
+  .chip{font-size:12px;padding:5px 10px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--ink-soft);font-family:"Space Grotesk"}
+  .chip.click{cursor:pointer;transition:.15s}
+  .chip.click:hover{border-color:rgba(239,232,216,.4);color:var(--ink)}
+  .chip .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px;vertical-align:middle}
+  .chip small{color:var(--ink-dim);margin-left:5px}
+  .lens-row,.toggle{display:flex;flex-wrap:wrap;gap:7px}
+  .lens,.tg{font-size:12.5px;padding:7px 12px;border-radius:11px;cursor:pointer;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--ink-soft);font-family:"Space Grotesk";font-weight:500;transition:.15s;text-align:left}
+  .tg{border-radius:999px}
+  .lens:hover,.tg:hover{color:var(--ink);border-color:rgba(243,234,208,.4)}
+  .lens.active,.tg.on{background:rgba(243,234,208,.1);border-color:rgba(243,234,208,.4);color:var(--ink)}
+  .areas{display:grid;grid-template-columns:1fr;gap:12px}
+  .area h3{font-family:"Fraunces",serif;font-weight:600;font-size:15px;margin:0 0 3px}
+  .area p{font-size:12.5px;color:var(--ink-dim);line-height:1.45;margin:0 0 8px}
+  .tp{width:100%;text-align:left;cursor:pointer;border:0;background:transparent;color:inherit;font-family:inherit;padding:7px 10px;border-radius:9px;transition:.15s;display:flex;align-items:baseline;gap:9px}
+  .tp:hover{background:rgba(255,255,255,.05)}
+  .tp.active{background:rgba(243,234,208,.1);outline:1px solid rgba(243,234,208,.3)}
+  .tp .tdot{width:9px;height:9px;border-radius:50%;flex:none;margin-top:5px}
+  .tp .tn{font-size:13px;color:var(--ink-soft)}.tp.active .tn{color:var(--ink)}
+  .tp .cnt{font-size:11px;color:var(--ink-dim);margin-left:auto;flex:none}
+  .legend{display:grid;grid-template-columns:1fr;gap:6px}
+  .lg{display:flex;align-items:center;gap:9px;font-size:12.5px;color:var(--ink-soft)}
+  .lg .sw{width:11px;height:11px;border-radius:4px;flex:none}
+  .note{font-size:12px;color:var(--ink-dim);line-height:1.5;margin:10px 0 0}
+  a.scholar{color:var(--cA);text-decoration:none;font-size:12.5px;border-bottom:1px solid rgba(79,209,197,.35)}
+  a.scholar:hover{color:#fff}
+  .btn-reset{margin-top:12px;font-family:"Space Grotesk";font-size:12.5px;color:var(--ink-dim);background:transparent;border:1px solid var(--line);border-radius:999px;padding:8px 15px;cursor:pointer}
+  .btn-reset:hover{color:var(--ink);border-color:rgba(239,232,216,.35)}
+  /* edges */
+  .band{fill:none;transition:opacity .2s}
+  .fedge{fill:none;stroke:var(--co);stroke-width:1.4;opacity:0;transition:opacity .2s}
+  .fedge.show{opacity:.6}
+  .ecoedge{fill:none;stroke:var(--thread);stroke-width:1;opacity:.1;transition:opacity .2s}
+  .ecoedge.ebb{opacity:.04}
+  .ecoedge.hot{stroke:var(--hot);opacity:.82;stroke-width:1.7}
+  .ecoedge.ebb.hot{opacity:.5;stroke-width:1.1;stroke-dasharray:2 4}
+  .ecoedge.mute{opacity:.02}
+  .stie{fill:none;stroke:var(--tie);stroke-width:1.3;transition:opacity .2s,stroke-width .2s}
+  .stie.base{opacity:.16}.stie.hot{opacity:.9;stroke-width:2}.stie.dim{opacity:.03}
+  .net{fill:none;transition:opacity .2s,stroke-width .2s}
+  .net.aff{stroke:var(--thread);stroke-width:1;opacity:.12;stroke-dasharray:3 4}
+  .net.co{stroke:var(--co);stroke-width:2;opacity:.7}
+  .net.hot{opacity:.9;stroke-width:2.2;stroke:var(--hot);stroke-dasharray:0}.net.dim{opacity:.02}
+  .net.hide,.stie.hide,.fedge.hide,.ecoedge.hide{display:none}
+  /* nodes */
+  .dnode{cursor:pointer}
+  .dnode circle.dot{transition:r .2s}
+  .dnode circle.halo{fill:none;opacity:0;transition:opacity .2s}
+  .dnode text{font-family:"Space Grotesk";font-size:13px;fill:var(--ink-soft);text-anchor:middle;pointer-events:none;transition:fill .2s}
+  .dnode.eco text{font-size:9.5px}
+  .dnode:hover circle.dot,.dnode.sel circle.dot{r:14}
+  .dnode.eco:hover circle.dot,.dnode.eco.sel circle.dot{r:11}
+  .dnode:hover text,.dnode.sel text{fill:var(--ink)}
+  .dnode.sel circle.halo{opacity:.95}
+  .dnode.mute{opacity:.2}
+  .fnode{cursor:pointer}
+  .fnode circle.fdot{transition:r .2s}
+  .fnode circle.fhalo,.fnode circle.fspine{fill:none;opacity:0;transition:opacity .2s}
+  .fnode text{font-family:"Space Grotesk";font-size:11px;fill:var(--ink-soft);text-anchor:middle;pointer-events:none;transition:fill .2s}
+  .fnode:hover text,.fnode.sel text{fill:#fff}
+  .fnode.sel circle.fhalo{opacity:.95}
+  .fnode.mute{opacity:.16}
+  .arealbl{font-family:"Fraunces",serif;font-style:italic;text-anchor:middle;transition:opacity .2s}
+  .arealbl.mute{opacity:.3}
+  .clabel{font-family:"Space Grotesk";font-weight:600;font-size:12.5px;text-anchor:middle;transition:opacity .2s}
+  .clabel.mute{opacity:.25}
+  .ct{font-family:"Fraunces",serif;font-style:italic;font-size:14px;fill:var(--ink);text-anchor:middle}
+  .ct.sub{font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;fill:var(--ink-dim);font-style:normal;font-family:"Space Grotesk"}
+  .hide{display:none}
+  .dnode:focus,.fnode:focus{outline:none}
+  .dnode:focus-visible circle.halo,.fnode:focus-visible circle.fhalo{opacity:.9;stroke:var(--hot);stroke-width:2}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+  @media(max-width:900px){.wrap{grid-template-columns:1fr}.panel{position:static}}
+</style>
+</head>
+<body>
+<header class="top">
+  <p class="eyebrow">University of Miami · Responsible Data Analytics Hub</p>
+  <h1>The <em>HORIZONS</em> Ecosystem</h1>
+  <div class="switch">
+    <button id="btn-topics" class="on">Topic landscape</button>
+    <button id="btn-eco">Ecosystem</button>
+    <button id="btn-scholars">Scholars &amp; ties</button>
+    <button id="btn-network">Scholarly network</button>
+  </div>
+  <p class="thesis" id="thesis"></p>
+  <p class="howto" id="howto"></p>
+</header>
+
+<div class="wrap">
+  <div class="stage">
+    <svg id="map" viewBox="0 0 1100 1120" role="img" aria-label="Four views of the initiative: topic landscape, ecosystem of disciplines and topics, scholars and their interdisciplinary ties, and the scholarly network.">
+      <g id="bands"></g>
+      <g id="net"></g>
+      <g id="ecoEdges"></g>
+      <g id="fedges"></g>
+      <g id="sties"></g>
+      <g id="center"></g>
+      <g id="arealbls"></g>
+      <g id="clusters"></g>
+      <g id="nodes"></g>
+      <g id="ecoTopics"></g>
+      <g id="fnodes"></g>
+    </svg>
+  </div>
+  <div class="panel">
+    <div class="card" id="detail"></div>
+    <div id="sideExtra"></div>
+  </div>
+</div>
+
+<script>
+const AREAS = {
+  safety:{label:"Safety", color:"#E8A15A", blurb:"The front end and staying safe.", topics:["prevention","safety"]},
+  permanency:{label:"Permanency", color:"#6FC7A0", blurb:"A lasting home and lasting ties.", topics:["reunification","permanency","connection"]},
+  wellbeing:{label:"Wellbeing", color:"#EAD6A0", blurb:"How a young person is actually doing, across ten domains.", topics:["psychological","physical","nutritional","educational","economic","housing","relational","civic","digital","cultural"]},
+  system:{label:"System & equity", color:"#C0A0E0", blurb:"The people and fairness of the system itself.", topics:["caregivers","equity"]},
+};
+const TOPICS = {
+  prevention:{l1:"Prevention",l2:"& front end",desc:"Maltreatment, the report and investigation process, and the removal decision, the front end that creates the population.",angles:["What turns a maltreatment report into a removal, and where can support divert it?","Evaluating Family First prevention services in Florida."]},
+  safety:{l1:"Safety",l2:"& re-entry",desc:"Maltreatment recurrence, safety within placements, and re-entry into care after exit.",angles:["Predictors of re-entry after reunification.","Safety and stability across placement moves."]},
+  reunification:{l1:"Reunification",l2:"& family",desc:"Reunifying families, the birth family as a subject, and the family regulation critique.",angles:["What makes reunification durable?","How removal reshapes families and communities."]},
+  permanency:{l1:"Adoption &",l2:"guardianship",desc:"Adoption, guardianship, and legally permanent homes, including kinship permanency.",angles:["Kinship versus non-kinship permanency.","Guardianship as an underused route to permanency."]},
+  connection:{l1:"Aging out",l2:"& connection",desc:"Transition to adulthood, independent living, and lifelong relationships.",angles:["Which independent living supports move self-sufficiency?","Natural mentors and lifelong connection."]},
+  psychological:{l1:"Psychological",l2:"",desc:"Trauma, depression, anxiety, identity, post traumatic growth, agency.",angles:["Trauma and post-traumatic growth trajectories.","Culturally valid measurement of wellbeing."]},
+  physical:{l1:"Physical",l2:"",desc:"Chronic conditions, healthcare access, sleep, exercise, kinesiology.",angles:["Healthcare access, sleep, and activity.","Kinesiology and exercise as intervention."]},
+  nutritional:{l1:"Nutritional",l2:"",desc:"Food security, dietary patterns, eating, cooking skill, food environment.",angles:["Food security across placements.","Cooking skill as independent-living readiness."]},
+  educational:{l1:"Educational",l2:"",desc:"Attainment, postsecondary access, learning differences, school stability, mentoring.",angles:["How placement moves disrupt learning.","Postsecondary access and tuition waivers."]},
+  economic:{l1:"Economic",l2:"",desc:"Employment, earnings, financial literacy, credit and debt, asset building, benefits.",angles:["Financial capability and asset building.","Cost analysis and ROI of transition support."]},
+  housing:{l1:"Housing",l2:"& space",desc:"Placement design, transitional housing, homelessness, independent living spaces.",angles:["Design of independent living environments.","Homelessness prevention for transition-age youth."]},
+  relational:{l1:"Relational",l2:"& social",desc:"Kinship ties, siblings, mentoring, friendship, romantic relationships, parenting.",angles:["Sibling co-placement and kinship ties.","Mentoring as a protective factor."]},
+  civic:{l1:"Civic",l2:"& legal",desc:"Legal rights, identity documents, voting, justice system involvement.",angles:["Identity documents and rights at exit.","Crossover youth and justice involvement."]},
+  digital:{l1:"Digital",l2:"& info",desc:"Device access, digital literacy, privacy, navigation of services, information.",angles:["Digital literacy and navigating services.","An AI guide to benefits and rights."]},
+  cultural:{l1:"Culture",l2:"& identity",desc:"Faith, racial and ethnic identity, indigenous identity, LGBTQ identity, cultural continuity.",angles:["Identity and continuity in care.","Reframing the public story of foster youth."]},
+  caregivers:{l1:"Caregivers",l2:"& workforce",desc:"Foster and kin caregivers and the workforce: recruitment, training, retention, caseload.",angles:["Caregiver recruitment and retention.","Caseworker caseload and turnover."]},
+  equity:{l1:"Equity",l2:"& data ethics",desc:"Racial disproportionality, ICWA, and the ethics of predictive risk models.",angles:["Disproportionality across the pipeline.","Ethics of predictive risk models in screening."]},
+};
+const CLUSTERS = {
+  A:{name:"Methodology & Analytics",color:"#4FD1C5",angle:-90}, B:{name:"Social & Developmental",color:"#F0898B",angle:-50},
+  C:{name:"Education & Workforce",color:"#88CE7C",angle:-10}, D:{name:"Health, Body & Kinesiology",color:"#E96A6A",angle:30},
+  E:{name:"Spatial Environment",color:"#7FB3F0",angle:70}, F:{name:"Technology & HCI",color:"#B79BE6",angle:110},
+  G:{name:"Law, Policy & Governance",color:"#E6B24A",angle:150}, H:{name:"Economics & Finance",color:"#E8935A",angle:190},
+  I:{name:"Communications & Humanities",color:"#E689C0",angle:230},
+};
+const FAC = {
+  ahn:{name:"Soyeon Ahn",last:"Ahn",cl:"A",spine:true,d:["economic","digital","psychological"],role:"Meta-analysis, measurement, data analytics and AI for social good. Works across every topic.",cites:9600,url:"Q-nHiFMAAAAJ",interests:["Meta-analysis","Measurement","Data analytics & AI"],coauthors:["Betsy Becker","Barbara Millet (UM)"],tags:["quant","ai","econ"]},
+  kara:{name:"Yusuf Kara",last:"Kara",cl:"A",spine:true,d:["educational","psychological"],role:"Quantitative methods, Bayesian estimation, item response theory, reading assessment.",cites:350,url:"L_EXwkkAAAAJ",interests:["Quantitative methods","Bayesian estimation","IRT","Reading assessment"],coauthors:["Joseph Nese","Cornelis Potgieter"],tags:["quant","assess"]},
+  guo:{name:"Rui Guo",last:"Guo",cl:"A",spine:true,d:["economic","educational"],role:"Research methods and program evaluation.",cites:null,url:null,interests:["Research methods","Program evaluation"],coauthors:[],tags:["quant","eval"]},
+  shearer:{name:"Rebecca Shearer",last:"Shearer",cl:"B",d:["psychological","relational","educational","prevention","safety","permanency","caregivers"],role:"Early childhood social emotional development, prevention, community partnership research.",cites:4200,url:"s1S2AdUAAAAJ",interests:["Early childhood","Social-emotional","School readiness","Head Start"],coauthors:["Christine Delgado","Amanda Williford"],tags:["child","community","assess","health"]},
+  kohnwood:{name:"Laura Kohn-Wood",last:"Kohn-Wood",cl:"B",d:["psychological","cultural","equity","caregivers","reunification"],role:"Mental health disparities, racial identity, community psychology, cultural competency.",cites:null,url:null,interests:["Mental health disparities","Racial identity","Community psychology"],coauthors:["Kira Hudson Banks","Michael Spencer"],tags:["child","community","race","health"]},
+  skidmore:{name:"Samuel Skidmore",last:"Skidmore",cl:"B",d:["psychological","relational","caregivers"],role:"Counseling and mental health; workforce and caregiver support.",cites:null,url:null,interests:["Counseling","Mental health"],coauthors:[],tags:["health"]},
+  santiago:{name:"Eduardo Santiago",last:"Santiago",cl:"B",d:["psychological","cultural","reunification"],role:"Counseling psychology and wellbeing; family and identity.",cites:null,url:null,interests:["Counseling psychology","Wellbeing","Identity"],coauthors:[],tags:["health","race"]},
+  mcphillip:{name:"Ellenmarie McPhillip",last:"McPhillip",cl:"C",d:["educational","relational"],role:"Teaching, literacy, and learning.",cites:null,url:null,interests:["Teaching","Literacy","Learning"],coauthors:[],tags:["assess","child"]},
+  witte:{name:"Michellina Witte",last:"Witte",cl:"D",d:["physical","nutritional","psychological"],role:"Nutrition and health; physical and nutritional wellbeing.",cites:null,url:null,interests:["Nutrition","Health","Physical wellbeing"],coauthors:[],tags:["health"]},
+  park:{name:"Youngho Park",last:"Park",cl:"D",d:["physical","digital"],role:"Kinesiology and sport sciences; sport analytics, big data, response bias methods.",cites:null,url:null,interests:["Sport analytics","Consumer behavior","Big data","Response bias"],coauthors:[],tags:["ai","sport","health"]},
+  barnes:{name:"Germane Barnes",last:"Barnes",cl:"E",d:["housing","cultural","connection"],role:"Architecture and identity; home, housing, belonging; independent living environments.",cites:null,url:null,interests:["Architecture & identity","Housing & belonging","Community design"],coauthors:[],tags:["race","housing"]},
+  chuan:{name:"Ching-Hua Chuan",last:"Chuan",cl:"F",spine:true,d:["digital","psychological","civic","equity"],role:"Big data, AI, human centered computing, responsible AI; chatbot and dashboard. Works across every topic.",cites:1710,url:"LnzPb80AAAAJ",interests:["Human-centered computing","Responsible AI","Machine learning","Music info retrieval","Health communication"],coauthors:["Dorien Herremans","Weiting Tao (UM)","Wan-Hsiu Tsai (UM)"],tags:["ai","music","health"]},
+  stewart:{name:"Kele Stewart",last:"Stewart",cl:"G",d:["civic","prevention","safety","reunification","permanency","connection","equity","housing"],role:"Child welfare law, children's rights, family regulation critique, aging out advocacy.",cites:null,url:null,interests:["Child welfare law","Children's rights","Family regulation","Clinical legal education"],coauthors:["Wendy Cavendish (UM)"],tags:["law","child"]},
+  johnson:{name:"Joseph Johnson",last:"Johnson",cl:"H",spine:true,d:["economic","civic","connection"],role:"Business, big data; organizations, financial capability, data analytics. Works across every topic.",cites:null,url:null,interests:["Organizations & management","Financial capability","Data analytics"],coauthors:[],tags:["econ","ai"]},
+  baker:{name:"Bruce Baker",last:"Baker",cl:"H",d:["economic","educational","housing"],role:"School finance, economics of education, and cost analysis; anchors the cost and ROI argument.",cites:8700,url:"0NQWga8AAAAJ",interests:["School finance","Economics of education","Cost analysis","Education policy"],coauthors:["Lori Taylor","Matthew Chingos"],tags:["econ","quant"]},
+  tsai:{name:"Wan-Hsiu (Sunny) Tsai",last:"Tsai",cl:"I",d:["cultural","civic","equity","connection","psychological"],role:"Strategic and health communication; representation, narrative, public support.",cites:7600,url:"X507cE0AAAAJ",interests:["Computational communication","AI","Augmented reality","Minority consumers","Health communication"],coauthors:["Linjuan Rita Men","Weiting Tao (UM)"],tags:["ai","race","health"]},
+  chattah:{name:"Juan Chattah",last:"Chattah",cl:"I",d:["psychological","cultural","connection"],role:"Music cognition, meaning making, and the arts; emotion, narrative, identity.",cites:620,url:"fdOEVt0AAAAJ",interests:["Film music","Music cognition","Semiotics","Meaning-making"],coauthors:["Barbara Millet (UM)","Soyeon Ahn (UM)"],tags:["music"]},
+};
+const LENSES = {
+  space:{name:"Space",domains:["housing"],faculty:["barnes","stewart","baker"]},
+  careers:{name:"Career & education",domains:["educational","economic"],faculty:["mcphillip","baker","johnson","guo","kara","stewart"]},
+  bodymind:{name:"Body & mind",domains:["psychological","physical","nutritional"],faculty:["shearer","kohnwood","skidmore","santiago","chattah","witte","park"]},
+  cost:{name:"Cost & ROI",domains:["economic"],faculty:["johnson","baker","ahn","guo","stewart"]},
+  bigdata:{name:"Big data",domains:["digital","equity"],faculty:["ahn","kara","guo","chuan","johnson","park"]},
+  family:{name:"Family & permanency",domains:["reunification","permanency","connection"],faculty:["stewart","kohnwood","santiago","shearer","barnes"]},
+  system:{name:"System & ethics",domains:["prevention","safety","caregivers","equity"],faculty:["stewart","kohnwood","johnson","ahn","chuan","tsai","shearer"]},
+};
+const COAUTH=[{a:"ahn",b:"chattah"},{a:"chuan",b:"tsai"}];
+
+// ---------- geometry ----------
+const CX=550, CY=560, R=250, NET_R=300, CLAB=NET_R+96, ECO_INR=195;
+const rad=d=>d*Math.PI/180;
+const seq=[]; Object.entries(AREAS).forEach(([aid,a])=>a.topics.forEach(t=>seq.push({id:t,area:aid})));
+const GAP=9, N=seq.length, slot=(360-GAP*Object.keys(AREAS).length)/N;
+let ang=-90, prev=null; const areaAng={}, tpos={}, etpos={};
+seq.forEach(it=>{ if(it.area!==prev){ ang+=GAP; prev=it.area; if(!areaAng[it.area])areaAng[it.area]={start:ang}; }
+  const a=ang+slot/2; tpos[it.id]={a,x:CX+R*Math.cos(rad(a)),y:CY+R*Math.sin(rad(a)),area:it.area};
+  etpos[it.id]={a,x:CX+ECO_INR*Math.cos(rad(a)),y:CY+ECO_INR*Math.sin(rad(a)),area:it.area};
+  areaAng[it.area].end=ang+slot; ang+=slot; });
+const fids=Object.keys(FAC), fp={};
+fids.forEach(f=>{let x=0,y=0;FAC[f].d.forEach(t=>{x+=tpos[t].x;y+=tpos[t].y;});fp[f]={x:x/FAC[f].d.length,y:y/FAC[f].d.length};});
+for(let it=0;it<120;it++){
+  for(let i=0;i<fids.length;i++)for(let j=i+1;j<fids.length;j++){const a=fp[fids[i]],b=fp[fids[j]];let dx=b.x-a.x,dy=b.y-a.y,d=Math.hypot(dx,dy)||0.01;const MIN=48;if(d<MIN){const p=(MIN-d)/2,ux=dx/d,uy=dy/d;a.x-=ux*p;a.y-=uy*p;b.x+=ux*p;b.y+=uy*p;}}
+  fids.forEach(f=>{const q=fp[f];let dx=q.x-CX,dy=q.y-CY,d=Math.hypot(dx,dy)||0.01;const mn=108,mx=206;if(d<mn){q.x=CX+dx/d*mn;q.y=CY+dy/d*mn;}if(d>mx){q.x=CX+dx/d*mx;q.y=CY+dy/d*mx;}});
+}
+const cp={};
+Object.entries(CLUSTERS).forEach(([cid,c])=>{const m=fids.filter(f=>FAC[f].cl===cid),n=m.length,ux=Math.cos(rad(c.angle)),uy=Math.sin(rad(c.angle)),tx=-uy,ty=ux,TSEP=n>=4?54:64;
+  m.forEach((f,i)=>{const off=(i-(n-1)/2)*TSEP,rr=NET_R+(i%2===0?0:44);cp[f]={x:CX+rr*ux+off*tx,y:CY+rr*uy+off*ty};});});
+function rFor(c){return c==null?7.5:Math.max(8,Math.min(15,7+4.6*(Math.log10(c)-2.5)));}
+
+// ---------- relations ----------
+const cover={}; Object.keys(TOPICS).forEach(t=>cover[t]=0); Object.values(FAC).forEach(f=>f.d.forEach(t=>cover[t]++));
+const ties=[], tieOf={}; fids.forEach(f=>tieOf[f]=[]);
+for(let i=0;i<fids.length;i++)for(let j=i+1;j<fids.length;j++){const a=fids[i],b=fids[j],shared=FAC[a].d.filter(t=>FAC[b].d.includes(t));
+  if(shared.length){const cross=FAC[a].cl!==FAC[b].cl;ties.push({a,b,shared,cross});tieOf[a].push({o:b,shared,cross});tieOf[b].push({o:a,shared,cross});}}
+const SPINE=fids.filter(f=>FAC[f].spine);
+const affPairs=[], sadj={}; fids.forEach(f=>sadj[f]=new Set());
+for(let i=0;i<fids.length;i++)for(let j=i+1;j<fids.length;j++){const a=fids[i],b=fids[j];if(FAC[a].tags.some(t=>FAC[b].tags.includes(t))){affPairs.push({a,b});sadj[a].add(b);sadj[b].add(a);}}
+COAUTH.forEach(e=>{sadj[e.a].add(e.b);sadj[e.b].add(e.a);});
+
+// ---------- render ----------
+const NS="http://www.w3.org/2000/svg", el=id=>document.getElementById(id);
+const mk=(t,a)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e;};
+function arcPath(r,a0,a1){const p0={x:CX+r*Math.cos(rad(a0)),y:CY+r*Math.sin(rad(a0))},p1={x:CX+r*Math.cos(rad(a1)),y:CY+r*Math.sin(rad(a1))};const large=(a1-a0)>180?1:0;return `M${p0.x} ${p0.y} A ${r} ${r} 0 ${large} 1 ${p1.x} ${p1.y}`;}
+
+const ctT=mk("g",{}); ctT.appendChild(mk("circle",{cx:CX,cy:CY,r:70,fill:"none",stroke:"rgba(239,232,216,.2)","stroke-dasharray":"2 6"}));
+let x=mk("text",{x:CX,y:CY-6,class:"ct"});x.textContent="the child welfare";ctT.appendChild(x);
+x=mk("text",{x:CX,y:CY+12,class:"ct"});x.textContent="field";ctT.appendChild(x);
+x=mk("text",{x:CX,y:CY+32,class:"ct sub"});x.textContent="three outcomes + system";ctT.appendChild(x);
+const ctN=mk("g",{class:"hide"}); ctN.appendChild(mk("circle",{cx:CX,cy:CY,r:60,fill:"none",stroke:"rgba(239,232,216,.16)","stroke-dasharray":"2 6"}));
+x=mk("text",{x:CX,y:CY-2,class:"ct"});x.textContent="published record";ctN.appendChild(x);
+x=mk("text",{x:CX,y:CY+16,class:"ct"});x.textContent="& shared keywords";ctN.appendChild(x);
+el("center").append(ctT,ctN);
+
+Object.entries(AREAS).forEach(([aid,a])=>{const aa=areaAng[aid];
+  el("bands").appendChild(mk("path",{d:arcPath(R,aa.start,aa.end),class:"band",stroke:a.color,"stroke-width":16,opacity:.14,"stroke-linecap":"round"}));
+  el("bands").appendChild(mk("path",{d:arcPath(R+30,aa.start+2,aa.end-2),class:"band",stroke:a.color,"stroke-width":2,opacity:.5,"stroke-linecap":"round"}));
+  const mid=(aa.start+aa.end)/2,lr=R-98,lx=CX+lr*Math.cos(rad(mid)),ly=CY+lr*Math.sin(rad(mid));
+  const lbl=mk("text",{x:lx,y:ly,class:"arealbl",fill:a.color,"font-size":aid==="wellbeing"?"17":"14"});lbl.dataset.aid=aid;lbl.textContent=a.label;el("arealbls").appendChild(lbl);
+});
+Object.entries(CLUSTERS).forEach(([cid,c])=>{const ux=Math.cos(rad(c.angle)),uy=Math.sin(rad(c.angle)),lx=CX+CLAB*ux,ly=CY+CLAB*uy;
+  const words=c.name.split(" "),tt=mk("text",{x:lx,y:ly,class:"clabel",fill:c.color});tt.dataset.cid=cid;
+  const mid=Math.ceil(words.length/2);const s1=mk("tspan",{x:lx,dy:"-0.2em"});s1.textContent=words.slice(0,mid).join(" ");const s2=mk("tspan",{x:lx,dy:"1.15em"});s2.textContent=words.slice(mid).join(" ");
+  tt.append(s1,s2);el("clusters").appendChild(tt);});
+
+// scholar->topic edges (scholars tab)
+Object.entries(FAC).forEach(([fid,f])=>f.d.forEach(tid=>{const p1=fp[fid],p2=tpos[tid];const e=mk("path",{d:`M${p1.x} ${p1.y} L ${p2.x} ${p2.y}`,class:"fedge"});e.dataset.f=fid;e.dataset.d=tid;el("fedges").appendChild(e);}));
+// ties (scholars tab)
+ties.forEach(tie=>{const p1=fp[tie.a],p2=fp[tie.b];const e=mk("path",{d:`M${p1.x} ${p1.y} L ${p2.x} ${p2.y}`,class:"stie"});e.dataset.a=tie.a;e.dataset.b=tie.b;e.dataset.cross=tie.cross?"1":"0";e.dataset.n=tie.shared.length;el("sties").appendChild(e);});
+// network edges
+affPairs.forEach(e=>{const p1=cp[e.a],p2=cp[e.b],mx=(p1.x+p2.x)/2,my=(p1.y+p2.y)/2,cx=mx+(CX-mx)*0.12,cy=my+(CY-my)*0.12;const path=mk("path",{d:`M${p1.x} ${p1.y} Q ${cx} ${cy} ${p2.x} ${p2.y}`,class:"net aff"});path.dataset.a=e.a;path.dataset.b=e.b;path.dataset.type="aff";el("net").appendChild(path);});
+COAUTH.forEach(e=>{const p1=cp[e.a],p2=cp[e.b],mx=(p1.x+p2.x)/2,my=(p1.y+p2.y)/2,cx=mx+(CX-mx)*0.16,cy=my+(CY-my)*0.16;const path=mk("path",{d:`M${p1.x} ${p1.y} Q ${cx} ${cy} ${p2.x} ${p2.y}`,class:"net co"});path.dataset.a=e.a;path.dataset.b=e.b;path.dataset.type="co";el("net").appendChild(path);});
+// ecosystem edges (faculty cp -> eco topic), spine reaches all
+Object.entries(FAC).forEach(([fid,f])=>{const prim=new Set(f.d);const list=f.spine?Object.keys(TOPICS):f.d;
+  list.forEach(tid=>{const p1=cp[fid],p2=etpos[tid],mx=(p1.x+p2.x)/2,my=(p1.y+p2.y)/2,cx=mx+(CX-mx)*0.14,cy=my+(CY-my)*0.14;
+    const e=mk("path",{d:`M${p1.x} ${p1.y} Q ${cx} ${cy} ${p2.x} ${p2.y}`,class:"ecoedge"+(f.spine&&!prim.has(tid)?" ebb":"")});e.dataset.f=fid;e.dataset.d=tid;el("ecoEdges").appendChild(e);});});
+
+// main topic nodes (landscape/scholars)
+Object.entries(TOPICS).forEach(([tid,tp])=>{const p=tpos[tid],col=AREAS[p.area].color;
+  const g=mk("g",{class:"dnode",tabindex:"0","data-d":tid,role:"button","aria-label":tp.l1});
+  g.appendChild(mk("circle",{cx:p.x,cy:p.y,r:18,class:"halo",fill:"none",stroke:col,"stroke-width":2,opacity:0}));
+  g.appendChild(mk("circle",{cx:p.x,cy:p.y,r:11,class:"dot",fill:col,"fill-opacity":.92,stroke:"#101627","stroke-width":1.5}));
+  const lr=R+24,lx=CX+lr*Math.cos(rad(p.a)),ly=CY+lr*Math.sin(rad(p.a));
+  const tx=mk("text",{x:lx,y:ly});const s1=mk("tspan",{x:lx,dy:tp.l2?"0":"0.32em"});s1.textContent=tp.l1;tx.appendChild(s1);if(tp.l2){const s2=mk("tspan",{x:lx,dy:"1.15em"});s2.textContent=tp.l2;tx.appendChild(s2);}g.appendChild(tx);
+  g.addEventListener("click",e=>{e.stopPropagation();tab==="topics"?selectTopic(tid):tab==="scholars"?selectTopicScholars(tid):null;});
+  g.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();tab==="topics"?selectTopic(tid):tab==="scholars"?selectTopicScholars(tid):null;}});
+  el("nodes").appendChild(g);
+});
+// eco topic nodes (ecosystem tab, inner ring)
+Object.entries(TOPICS).forEach(([tid,tp])=>{const p=etpos[tid],col=AREAS[p.area].color,r=Math.max(6,Math.min(13,6+cover[tid]*0.85));
+  const g=mk("g",{class:"dnode eco",tabindex:"0","data-d":tid,role:"button","aria-label":tp.l1});
+  g.appendChild(mk("circle",{cx:p.x,cy:p.y,r:r+6,class:"halo",fill:"none",stroke:col,"stroke-width":2,opacity:0}));
+  g.appendChild(mk("circle",{cx:p.x,cy:p.y,r:r,class:"dot",fill:col,"fill-opacity":.9,stroke:"#101627","stroke-width":1.2}));
+  const lr=ECO_INR-14,lx=CX+lr*Math.cos(rad(p.a)),ly=CY+lr*Math.sin(rad(p.a));
+  const tx=mk("text",{x:lx,y:ly});const s1=mk("tspan",{x:lx,dy:tp.l2?"-0.1em":"0.32em"});s1.textContent=tp.l1;tx.appendChild(s1);if(tp.l2){const s2=mk("tspan",{x:lx,dy:"1.05em"});s2.textContent=tp.l2;tx.appendChild(s2);}g.appendChild(tx);
+  g.addEventListener("click",e=>{e.stopPropagation();selectEcoTopic(tid);});
+  g.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();selectEcoTopic(tid);}});
+  el("ecoTopics").appendChild(g);
+});
+// faculty nodes (repositioned per tab)
+const facEls={};
+Object.entries(FAC).forEach(([fid,f])=>{const col=CLUSTERS[f.cl].color;
+  const g=mk("g",{class:"fnode",tabindex:"0","data-f":fid,role:"button","aria-label":f.name});
+  const halo=mk("circle",{class:"fhalo",r:14,fill:"none",stroke:col,"stroke-width":2,opacity:0});
+  const spine=mk("circle",{class:"fspine",r:11,fill:"none",stroke:col,"stroke-width":1.3,"stroke-dasharray":"2.5 2.5",opacity:0});
+  const dot=mk("circle",{class:"fdot",r:6.5,fill:col,"fill-opacity":.92,stroke:"#101627","stroke-width":1.4});
+  const label=mk("text",{});label.textContent=f.last;
+  g.append(halo,spine,dot,label); el("fnodes").appendChild(g); facEls[fid]={g,halo,spine,dot,label};
+  g.addEventListener("click",e=>{e.stopPropagation();selectFaculty(fid);});
+  g.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();selectFaculty(fid);}});
+});
+function placeFaculty(mode){ // scholars=centroid small | network=cp cites | ecosystem=cp uniform
+  fids.forEach(fid=>{const f=FAC[fid],e=facEls[fid];const p=(mode==="scholars")?fp[fid]:cp[fid];
+    const r=mode==="network"?rFor(f.cites):(mode==="ecosystem"?8:6.5);
+    [e.halo,e.spine,e.dot].forEach(c=>{c.setAttribute("cx",p.x);c.setAttribute("cy",p.y);});
+    e.dot.setAttribute("r",r);e.halo.setAttribute("r",r+7);
+    if(mode==="network"){e.spine.setAttribute("opacity",0);
+      if(f.cites==null){e.dot.setAttribute("fill","none");e.dot.setAttribute("stroke",CLUSTERS[f.cl].color);e.dot.setAttribute("stroke-width",1.6);e.dot.setAttribute("stroke-dasharray","3 3");}
+      else{e.dot.setAttribute("fill",CLUSTERS[f.cl].color);e.dot.setAttribute("fill-opacity",.9);e.dot.setAttribute("stroke",CLUSTERS[f.cl].color);e.dot.setAttribute("stroke-width",1.4);e.dot.setAttribute("stroke-dasharray","0");}
+    } else {e.spine.setAttribute("r",r+4);e.spine.setAttribute("opacity",f.spine?.85:0);
+      e.dot.setAttribute("fill",CLUSTERS[f.cl].color);e.dot.setAttribute("fill-opacity",.92);e.dot.setAttribute("stroke","#101627");e.dot.setAttribute("stroke-width",1.4);e.dot.setAttribute("stroke-dasharray","0");}
+    e.label.setAttribute("x",p.x);e.label.setAttribute("y",p.y-(r+5));
+  });
+}
+
+// ---------- interaction ----------
+const detail=el("detail");
+let tab="topics", edgeMode="both";
+function clearHi(){
+  document.querySelectorAll(".dnode,.fnode").forEach(n=>n.classList.remove("sel","mute"));
+  document.querySelectorAll(".arealbl,.clabel").forEach(n=>n.classList.remove("mute"));
+  document.querySelectorAll(".fedge").forEach(e=>e.classList.remove("show"));
+  document.querySelectorAll(".ecoedge").forEach(e=>e.classList.remove("hot","mute"));
+  document.querySelectorAll(".stie").forEach(e=>e.classList.remove("hot","dim"));
+  document.querySelectorAll(".net").forEach(e=>e.classList.remove("hot","dim"));
+  document.querySelectorAll(".tp,.lens").forEach(n=>n.classList.remove("active"));
+  baseTies();
+}
+function baseTies(){document.querySelectorAll(".stie").forEach(e=>{const on=tab==="scholars"&&e.dataset.cross==="1"&&(+e.dataset.n)>=2;e.classList.toggle("base",on);});}
+function tChip(tid){const tp=TOPICS[tid],a=AREAS[tpos[tid].area];return `<button class="chip click" data-d="${tid}"><span class="dot" style="background:${a.color}"></span>${tp.l1} ${tp.l2}</button>`;}
+function fChip(fid,extra){return `<button class="chip click" data-f="${fid}"><span class="dot" style="background:${CLUSTERS[FAC[fid].cl].color}"></span>${FAC[fid].name}${extra?`<small>${extra}</small>`:""}</button>`;}
+function wire(){
+  detail.querySelectorAll(".chip.click[data-d]").forEach(c=>c.addEventListener("click",e=>{e.stopPropagation();tab==="topics"?selectTopic(c.dataset.d):tab==="eco"?selectEcoTopic(c.dataset.d):selectTopicScholars(c.dataset.d);}));
+  detail.querySelectorAll(".chip.click[data-f]").forEach(c=>c.addEventListener("click",e=>{e.stopPropagation();selectFaculty(c.dataset.f);}));
+  detail.querySelectorAll(".lens").forEach(b=>b.addEventListener("click",e=>{e.stopPropagation();selectLens(b.dataset.lens);}));
+  detail.querySelectorAll(".tg").forEach(b=>b.addEventListener("click",e=>{e.stopPropagation();edgeMode=b.dataset.m;applyNetMode();const s=document.querySelector(".fnode.sel");s?selectFaculty(s.dataset.f):resetNetwork();}));
+  const r=el("reset2");if(r)r.addEventListener("click",e=>{e.stopPropagation();resetTab();});
+}
+function resetTab(){tab==="topics"?resetTopics():tab==="eco"?resetEco():tab==="scholars"?resetScholars():resetNetwork();}
+
+// Tab 1 topics
+function resetTopics(){clearHi();
+  detail.innerHTML=`<p class="kick">The frame</p><h2>Three outcomes, one system</h2>
+    <p class="role">Child welfare policy measures whether children are <b>safe</b>, whether they reach <b>permanency</b>, and how they are <b>doing</b>. HORIZONS keeps that triad, opens wellbeing into ten domains, and adds <b>system and equity</b>. Pick a topic for what it holds and research angles.</p>
+    <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:12px">${Object.values(AREAS).map(a=>`<span style="font-size:12.5px;color:${a.color}">&#9679; ${a.label}</span>`).join("")}</div>`;}
+function selectTopic(tid){clearHi();const tp=TOPICS[tid],area=tpos[tid].area,a=AREAS[area];
+  document.querySelectorAll("#nodes .dnode").forEach(n=>{if(n.dataset.d===tid)n.classList.add("sel");else n.classList.add("mute");});
+  document.querySelectorAll(".arealbl").forEach(n=>{if(n.dataset.aid!==area)n.classList.add("mute");});
+  document.querySelectorAll(".tp").forEach(b=>{if(b.dataset.d===tid)b.classList.add("active");});
+  detail.innerHTML=`<p class="kick" style="color:${a.color}">${a.label} · topic</p><h2>${tp.l1} ${tp.l2}</h2><p class="role">${tp.desc}</p>
+    <p class="kick" style="margin-top:10px">Research angles</p><ul class="angles" style="--ac:${a.color}">${tp.angles.map(y=>`<li>${y}</li>`).join("")}</ul>
+    <button class="btn-reset" id="reset2">Back to overview</button>`;wire();}
+
+// Tab 2 ecosystem
+function resetEco(){clearHi();
+  detail.innerHTML=`<p class="kick">Ecosystem</p><h2>Disciplines meet topics</h2>
+    <p class="role">The inner ring is the seventeen topics; the outer ring is the nine disciplines, colored by cluster. Threads show which topics each scholar feeds. A dashed ring marks the methodology and big data backbone, which reaches every topic. Click a name, a topic, or a lens.</p>
+    <button class="btn-reset" id="reset2">Reset view</button>`;wire();}
+function selectEcoTopic(tid){clearHi();const tp=TOPICS[tid],area=etpos[tid].area,a=AREAS[area];
+  const on=fids.filter(f=>FAC[f].d.includes(tid)),bb=SPINE.filter(f=>!FAC[f].d.includes(tid)),all=new Set([...on,...bb]);
+  document.querySelectorAll("#ecoTopics .dnode").forEach(n=>{if(n.dataset.d===tid)n.classList.add("sel");else n.classList.add("mute");});
+  document.querySelectorAll(".fnode").forEach(n=>{if(all.has(n.dataset.f))n.classList.add("sel");else n.classList.add("mute");});
+  document.querySelectorAll(".ecoedge").forEach(e=>{if(e.dataset.d===tid&&all.has(e.dataset.f))e.classList.add("hot");else e.classList.add("mute");});
+  const clSet=new Set([...all].map(f=>FAC[f].cl));document.querySelectorAll(".clabel").forEach(l=>{if(!clSet.has(l.dataset.cid))l.classList.add("mute");});
+  const sC=on.length?on.map(f=>fChip(f)).join(""):`<span class="role" style="color:var(--ink-dim)">No one yet. A recruiting frontier.</span>`;const bC=bb.map(f=>fChip(f)).join("");
+  detail.innerHTML=`<p class="kick" style="color:${a.color}">${a.label} · topic</p><h2>${tp.l1} ${tp.l2}</h2><p class="role">${tp.desc}</p>
+    <p class="kick" style="margin-top:8px">Topic scholars (${on.length})</p><div class="chips">${sC}</div>
+    <p class="kick" style="margin-top:12px">Analytic backbone available here</p><div class="chips">${bC}</div>
+    <button class="btn-reset" id="reset2">Reset view</button>`;wire();}
+
+// Tab 3 scholars
+function resetScholars(){clearHi();
+  detail.innerHTML=`<p class="kick">Scholars on the field</p><h2>Who sits where, and who connects</h2>
+    <p class="role">Each dot is a colleague placed near the topics they study, colored by discipline. Faint teal lines are the strong interdisciplinary bridges, cross-discipline pairs who share two or more topics. Click a name for all their ties, a topic for who works on it, or a lens for a theme.</p>
+    <button class="btn-reset" id="reset2">Reset view</button>`;wire();}
+function selectTopicScholars(tid){clearHi();const tp=TOPICS[tid],area=tpos[tid].area,a=AREAS[area];const on=fids.filter(f=>FAC[f].d.includes(tid));
+  document.querySelectorAll("#nodes .dnode").forEach(n=>{if(n.dataset.d===tid)n.classList.add("sel");else n.classList.add("mute");});
+  document.querySelectorAll(".fnode").forEach(n=>{if(on.includes(n.dataset.f))n.classList.add("sel");else n.classList.add("mute");});
+  document.querySelectorAll(".fedge").forEach(e=>{if(e.dataset.d===tid)e.classList.add("show");});
+  document.querySelectorAll(".stie").forEach(e=>{const inc=on.includes(e.dataset.a)&&on.includes(e.dataset.b);e.classList.toggle("hot",inc);e.classList.toggle("dim",!inc);e.classList.remove("base");});
+  document.querySelectorAll(".arealbl").forEach(n=>{if(n.dataset.aid!==area)n.classList.add("mute");});
+  document.querySelectorAll(".tp").forEach(b=>{if(b.dataset.d===tid)b.classList.add("active");});
+  const chips=on.length?on.map(f=>fChip(f)).join(""):`<span class="role" style="color:var(--ink-dim)">No one yet. A recruiting frontier.</span>`;
+  detail.innerHTML=`<p class="kick" style="color:${a.color}">${a.label} · topic</p><h2>${tp.l1} ${tp.l2}</h2><p class="role">${tp.desc}</p>
+    <p class="kick" style="margin-top:8px">Scholars on this topic (${on.length})</p><div class="chips">${chips}</div>
+    <button class="btn-reset" id="reset2">Reset view</button>`;wire();}
+
+// faculty dispatch
+function selectFaculty(fid){if(tab==="network")return selectFacultyNet(fid);if(tab==="eco")return selectFacultyEco(fid);return selectFacultyScholars(fid);}
+function selectFacultyScholars(fid){clearHi();const f=FAC[fid],set=new Set(f.d),myties=tieOf[fid],conn=new Set(myties.map(t=>t.o));
+  document.querySelectorAll(".fnode").forEach(n=>{const id=n.dataset.f;if(id===fid)n.classList.add("sel");else if(!conn.has(id))n.classList.add("mute");});
+  document.querySelectorAll("#nodes .dnode").forEach(n=>{if(set.has(n.dataset.d))n.classList.add("sel");else n.classList.add("mute");});
+  document.querySelectorAll(".fedge").forEach(e=>{if(e.dataset.f===fid)e.classList.add("show");});
+  document.querySelectorAll(".stie").forEach(e=>{const inc=e.dataset.a===fid||e.dataset.b===fid;e.classList.toggle("hot",inc);e.classList.toggle("dim",!inc);e.classList.remove("base");});
+  document.querySelectorAll(".arealbl").forEach(n=>n.classList.add("mute"));
+  const cross=myties.filter(t=>t.cross).sort((a,b)=>b.shared.length-a.shared.length),same=myties.filter(t=>!t.cross);
+  const crossChips=cross.map(t=>fChip(t.o,t.shared.map(s=>TOPICS[s].l1).join(", "))).join("")||`<span class="role" style="color:var(--ink-dim)">none</span>`;
+  const sameChips=same.map(t=>fChip(t.o,t.shared.map(s=>TOPICS[s].l1).join(", "))).join("")||`<span class="role" style="color:var(--ink-dim)">none</span>`;
+  const spineLine=f.spine?`<p class="note">Backbone: methods and big data reaching every topic.</p>`:"";
+  detail.innerHTML=`<p class="kick" style="color:${CLUSTERS[f.cl].color}">Cluster ${f.cl} · ${CLUSTERS[f.cl].name}</p><h2>${f.name}</h2><p class="role">${f.role}</p>${spineLine}
+    <p class="kick" style="margin-top:8px">Topics you feed</p><div class="chips">${f.d.map(tChip).join("")}</div>
+    <p class="kick" style="margin-top:12px">Interdisciplinary ties (${cross.length})</p><div class="chips">${crossChips}</div>
+    <p class="kick" style="margin-top:12px">Within your discipline (${same.length})</p><div class="chips">${sameChips}</div>
+    <button class="btn-reset" id="reset2">Reset view</button>`;wire();}
+function selectFacultyEco(fid){clearHi();const f=FAC[fid],mine=f.spine?new Set(Object.keys(TOPICS)):new Set(f.d),neigh=new Set(tieOf[fid].map(t=>t.o));
+  document.querySelectorAll(".fnode").forEach(n=>{const id=n.dataset.f;if(id===fid)n.classList.add("sel");else if(!neigh.has(id))n.classList.add("mute");});
+  document.querySelectorAll("#ecoTopics .dnode").forEach(n=>{if(mine.has(n.dataset.d))n.classList.add("sel");else n.classList.add("mute");});
+  document.querySelectorAll(".ecoedge").forEach(e=>{if(e.dataset.f===fid)e.classList.add("hot");else e.classList.add("mute");});
+  document.querySelectorAll(".clabel").forEach(l=>{if(l.dataset.cid!==f.cl)l.classList.add("mute");});
+  const collabs=[...neigh].sort((a,b)=>FAC[a].name.localeCompare(FAC[b].name)).map(f=>fChip(f)).join("");
+  const spineLine=f.spine?`<p class="note">Backbone: reaches every topic. Emphasis below.</p>`:"";
+  detail.innerHTML=`<p class="kick" style="color:${CLUSTERS[f.cl].color}">Cluster ${f.cl} · ${CLUSTERS[f.cl].name}</p><h2>${f.name}</h2><p class="role">${f.role}</p>${spineLine}
+    <p class="kick" style="margin-top:8px">${f.spine?"Primary topics":"Topics you feed"}</p><div class="chips">${f.d.map(tChip).join("")}</div>
+    <p class="kick" style="margin-top:12px">Scholars you share a topic with (${neigh.size})</p><div class="chips">${collabs}</div>
+    <button class="btn-reset" id="reset2">Reset view</button>`;wire();}
+
+// lens (scholars or eco)
+function selectLens(id){clearHi();const l=LENSES[id],fs=new Set(l.faculty),ds=new Set(l.domains);
+  document.querySelector(`.lens[data-lens="${id}"]`)?.classList.add("active");
+  document.querySelectorAll(".fnode").forEach(n=>{if(fs.has(n.dataset.f))n.classList.add("sel");else n.classList.add("mute");});
+  if(tab==="eco"){
+    document.querySelectorAll("#ecoTopics .dnode").forEach(n=>{if(ds.has(n.dataset.d))n.classList.add("sel");else n.classList.add("mute");});
+    document.querySelectorAll(".ecoedge").forEach(e=>{if(fs.has(e.dataset.f)&&ds.has(e.dataset.d))e.classList.add("hot");else e.classList.add("mute");});
+    document.querySelectorAll(".clabel").forEach(x=>{if(!new Set(l.faculty.map(f=>FAC[f].cl)).has(x.dataset.cid))x.classList.add("mute");});
+  } else {
+    document.querySelectorAll("#nodes .dnode").forEach(n=>{if(ds.has(n.dataset.d))n.classList.add("sel");else n.classList.add("mute");});
+    document.querySelectorAll(".fedge").forEach(e=>{if(fs.has(e.dataset.f)&&ds.has(e.dataset.d))e.classList.add("show");});
+    document.querySelectorAll(".stie").forEach(e=>{const inc=fs.has(e.dataset.a)&&fs.has(e.dataset.b);e.classList.toggle("hot",inc);e.classList.toggle("dim",!inc);e.classList.remove("base");});
+    document.querySelectorAll(".arealbl").forEach(n=>n.classList.add("mute"));
+  }
+  detail.innerHTML=`<p class="kick">Lens</p><h2>${l.name}</h2>
+    <p class="kick" style="margin-top:6px">Topics</p><div class="chips">${l.domains.map(tChip).join("")}</div>
+    <p class="kick" style="margin-top:12px">Who it gathers (${l.faculty.length})</p><div class="chips">${l.faculty.map(f=>fChip(f)).join("")}</div>
+    <button class="btn-reset" id="reset2">Reset view</button>`;wire();}
+
+// Tab 4 network
+function applyNetMode(){document.querySelectorAll(".net").forEach(e=>{const t=e.dataset.type;e.classList.toggle("hide",tab!=="network"||(edgeMode==="co"&&t==="aff")||(edgeMode==="aff"&&t==="co"));});}
+function nToggles(){return `<div class="toggle"><button class="tg ${edgeMode==='both'?'on':''}" data-m="both">Both</button><button class="tg ${edgeMode==='co'?'on':''}" data-m="co">Co-authorship</button><button class="tg ${edgeMode==='aff'?'on':''}" data-m="aff">Topic affinity</button></div>`;}
+function resetNetwork(){clearHi();applyNetMode();
+  detail.innerHTML=`<p class="kick">Scholarly network</p><h2>Two kinds of tie</h2>
+    <p class="role"><span style="color:var(--co)">Gold</span> lines are confirmed co-authorship, the real bridges. Dashed lines are shared research keywords. Dot size is Google Scholar citations; a dashed outline means no public total was found. Totals are approximate, mid 2026.</p>
+    ${nToggles()}<button class="btn-reset" id="reset2">Reset view</button>`;wire();}
+function selectFacultyNet(fid){clearHi();applyNetMode();const f=FAC[fid],neigh=sadj[fid];
+  document.querySelectorAll(".fnode").forEach(n=>{const id=n.dataset.f;if(id===fid)n.classList.add("sel");else if(!neigh.has(id))n.classList.add("mute");});
+  document.querySelectorAll(".net").forEach(e=>{const inc=e.dataset.a===fid||e.dataset.b===fid;e.classList.toggle("hot",inc);e.classList.toggle("dim",!inc);});
+  document.querySelectorAll(".clabel").forEach(l=>{if(l.dataset.cid!==f.cl)l.classList.add("mute");});
+  const co=COAUTH.filter(e=>e.a===fid||e.b===fid).map(e=>e.a===fid?e.b:e.a);
+  const coC=co.map(f=>fChip(f)).join("")||`<span class="chip">none recorded in the group</span>`;
+  const affN=[...neigh].filter(n=>!co.includes(n)).sort((a,b)=>FAC[a].name.localeCompare(FAC[b].name)).map(f=>fChip(f)).join("");
+  const intC=f.interests.map(i=>`<span class="chip">${i}</span>`).join("");
+  const cite=f.cites==null?"Google Scholar total not located":`~${f.cites.toLocaleString()} citations (Google Scholar, approx.)`;
+  const link=f.url?` · <a class="scholar" href="https://scholar.google.com/citations?user=${f.url}" target="_blank" rel="noopener">Scholar profile</a>`:"";
+  detail.innerHTML=`<p class="kick" style="color:${CLUSTERS[f.cl].color}">Cluster ${f.cl} · ${CLUSTERS[f.cl].name}</p><h2>${f.name}</h2><p class="cites">${cite}${link}</p>
+    <p class="kick">Research keywords</p><div class="chips">${intC}</div>
+    <p class="kick" style="margin-top:12px">Co-authors in the group</p><div class="chips">${coC}</div>
+    <p class="kick" style="margin-top:12px">Keyword neighbors</p><div class="chips">${affN}</div>
+    <p class="note" style="margin-top:10px">Frequent external co-authors: ${f.coauthors.length?f.coauthors.join(", "):"not listed"}.</p>
+    ${nToggles()}<button class="btn-reset" id="reset2">Reset view</button>`;wire();}
+
+// side
+function buildSide(){const box=el("sideExtra");
+  if(tab==="topics"){box.innerHTML=`<div class="card"><p class="kick">Topics by outcome area</p><div class="areas" id="areas"></div></div>`;
+    const ab=el("areas");Object.entries(AREAS).forEach(([aid,a])=>{const d=document.createElement("div");d.className="area";d.innerHTML=`<h3 style="color:${a.color}">${a.label}</h3><p>${a.blurb}</p>`;
+      a.topics.forEach(tid=>{const tp=TOPICS[tid];const b=document.createElement("button");b.className="tp";b.dataset.d=tid;b.innerHTML=`<span class="tdot" style="background:${a.color}"></span><span class="tn">${tp.l1} ${tp.l2}</span><span class="cnt">${cover[tid]}</span>`;b.addEventListener("click",e=>{e.stopPropagation();selectTopic(tid);});d.appendChild(b);});ab.appendChild(d);});
+  } else if(tab==="eco"||tab==="scholars"){
+    const tip = tab==="eco" ? "A dashed ring marks the methodology and big data backbone, available to every topic." : "Teal lines are interdisciplinary ties: two scholars who study a shared topic across different disciplines.";
+    box.innerHTML=`<div class="card"><p class="kick">Enter through a lens</p><div class="lens-row" id="lenses"></div></div>
+      <div class="card"><p class="kick">Discipline clusters</p><div class="legend" id="legend"></div><p class="note">${tip}</p></div>`;
+    const lr=el("lenses");Object.entries(LENSES).forEach(([id,l])=>{const b=document.createElement("button");b.className="lens";b.dataset.lens=id;b.textContent=l.name;b.addEventListener("click",e=>{e.stopPropagation();selectLens(id);});lr.appendChild(b);});
+    fillLegend();
+  } else {
+    box.innerHTML=`<div class="card"><p class="kick">Confirmed co-authorship</p><div class="chips"><span class="chip click" data-f="ahn">Ahn &harr; Chattah</span><span class="chip click" data-f="chuan">Chuan &harr; Tsai</span></div>
+      <p class="note">Only two co-authorship ties exist among the seventeen, both crossing disciplines. The seams to build on.</p></div>
+      <div class="card"><p class="kick">Discipline clusters</p><div class="legend" id="legend"></div></div>`;
+    el("sideExtra").querySelectorAll(".chip.click").forEach(c=>c.addEventListener("click",e=>{e.stopPropagation();selectFaculty(c.dataset.f);}));
+    fillLegend();
+  }
+}
+function fillLegend(){const lg=el("legend");if(!lg)return;Object.entries(CLUSTERS).forEach(([cid,c])=>{const m=Object.values(FAC).filter(f=>f.cl===cid).map(f=>f.last).join(", ");const row=document.createElement("div");row.className="lg";row.innerHTML=`<span class="sw" style="background:${c.color}"></span><span><b style="color:${c.color};font-weight:600">${cid}</b> ${c.name} · ${m}</span>`;lg.appendChild(row);});}
+
+// tabs
+function setTab(v){tab=v;
+  el("btn-topics").classList.toggle("on",v==="topics");el("btn-eco").classList.toggle("on",v==="eco");el("btn-scholars").classList.toggle("on",v==="scholars");el("btn-network").classList.toggle("on",v==="network");
+  const topics=v==="topics",eco=v==="eco",scholars=v==="scholars",network=v==="network";
+  el("bands").classList.toggle("hide",eco||network);
+  el("nodes").classList.toggle("hide",eco||network);
+  el("ecoTopics").classList.toggle("hide",!eco);
+  el("arealbls").classList.toggle("hide",!topics);
+  el("clusters").classList.toggle("hide",!(eco||network));
+  el("fnodes").classList.toggle("hide",topics);
+  el("fedges").classList.toggle("hide",!scholars);
+  el("sties").classList.toggle("hide",!scholars);
+  el("ecoEdges").classList.toggle("hide",!eco);
+  el("net").classList.toggle("hide",!network);
+  ctT.classList.toggle("hide",network);ctN.classList.toggle("hide",!network);
+  if(!topics)placeFaculty(network?"network":eco?"ecosystem":"scholars");
+  el("thesis").innerHTML = topics
+    ? "The field organizes around three outcomes: <b>safety</b>, <b>permanency</b>, and <b>wellbeing</b>, plus the <b>system and equity</b> work around them. Seventeen topics in all."
+    : eco
+    ? "The two-ring ecosystem: topics on the inside, the nine disciplines on the outside, joined by threads. Methodology and big data scholars carry a dashed ring because they reach every topic."
+    : scholars
+    ? "The same wheel, with your colleagues placed near the topics they study and joined by their <b>interdisciplinary ties</b>: shared topics across different disciplines."
+    : "The same people, now sized by Google Scholar citations and joined by what they have published: gold for co-authorship, dashed for shared keywords.";
+  el("howto").innerHTML = topics
+    ? "<b>Click a topic</b> for what it covers and research angles."
+    : eco
+    ? "<b>Click a name</b> for the topics they feed, <b>a topic</b> for who converges there, or <b>a lens</b> for a theme."
+    : scholars
+    ? "<b>Click a name</b> for all their ties, <b>a topic</b> for who works on it, or <b>a lens</b> for a theme."
+    : "<b>Click a name</b> for citations, keywords, and co-authors. Toggle the tie types.";
+  buildSide();resetTab();
+}
+el("btn-topics").addEventListener("click",()=>setTab("topics"));
+el("btn-eco").addEventListener("click",()=>setTab("eco"));
+el("btn-scholars").addEventListener("click",()=>setTab("scholars"));
+el("btn-network").addEventListener("click",()=>setTab("network"));
+el("map").addEventListener("click",()=>resetTab());
+document.body.addEventListener("click",e=>{if(!e.target.closest(".panel")&&!e.target.closest(".stage")&&!e.target.closest("header"))resetTab();});
+
+setTab("topics");
+window.addEventListener("load",()=>{if(window.matchMedia("(prefers-reduced-motion:reduce)").matches)return;
+  setTimeout(()=>selectTopic("connection"),400);setTimeout(()=>resetTopics(),2000);});
+</script>
+</body>
+</html>
