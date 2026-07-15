@@ -1,40 +1,35 @@
-# HORIZONS Ecosystem
+# HORIZONS Ecosystem Map
 
-An interactive map of the **HORIZONS: Foster Care and Aged Out Youth Wellbeing Initiative** at the University of Miami, Responsible Data Analytics Hub, School of Education and Human Development.
+Interactive map for the **HORIZONS: Foster Care and Aged Out Youth Wellbeing Initiative** at the University of Miami, Responsible Data Analytics Hub, School of Education and Human Development.
 
-The master map is `index.html`. It has four tabs.
+Live: https://sahn1978.github.io/horizonsimpact_fostercare/
 
-1. **Topic landscape.** The child welfare field as its three outcomes, safety, permanency, and wellbeing, plus system and equity. Seventeen topics with descriptions and research angles.
-2. **Ecosystem.** The two-ring view: topics on an inner ring, the nine disciplines on an outer ring, joined by threads, with seven thematic lenses and a dashed ring marking the methodology and big data backbone that reaches every topic.
-3. **Scholars and ties.** The seventeen faculty placed near the topics they study, colored by discipline, joined by their interdisciplinary ties, meaning shared topics across different disciplines. Same seven lenses.
-4. **Scholarly network.** The same people sized by Google Scholar citations and joined by what they have published: gold lines for confirmed co-authorship, dashed lines for shared research keywords. Citation totals are approximate, mid 2026.
+## What to upload
 
-## View it
+Upload **`index.html`** to the repository root, overwriting the current file. It is the whole map, self-contained in one file. Nothing else is required.
 
-- **Live:** open the published link (see GitHub Pages below).
-- **Locally:** download `index.html` and open it in any browser. It is a single self contained file. An internet connection loads the display fonts; without one it still works with system fonts.
+## The map
 
-## Publish it on GitHub Pages
+One page with four tabs, switchable at the top. A short line tells visitors it is interactive.
 
-1. Create a repository, for example `horizons-ecosystem`.
-2. Upload all files to the repository root.
-3. Open **Settings > Pages**.
-4. Under **Build and deployment**, set **Source** to *Deploy from a branch*, pick the `main` branch and the `/root` folder, then **Save**.
-5. Wait about a minute. The link appears at the top of the Pages settings, `https://<your-org>.github.io/horizons-ecosystem/`.
-6. Share that link. Anyone can open and explore it, no account needed.
+1. Topic landscape. The child welfare field as safety, permanency, and wellbeing, plus system and equity. Seventeen topics with descriptions and research angles.
+2. Ecosystem. The two-ring view of topics and the nine disciplines, joined by threads, with thematic lenses and a backbone ring for the methodology and big data scholars.
+3. Scholars and ties. The seventeen faculty placed near the topics they study, joined by their interdisciplinary ties.
+4. Scholarly network. The same people sized by Google Scholar citations, with co-authorship and shared-keyword links.
 
-## Files
+The page carries the School of Education and Human Development logo at the top and, across the bottom, the funder and partner acknowledgment.
 
-- `index.html` — the master three tab map (same as `horizons-ecosystem.html`).
-- `horizons-ecosystem.html` — the master map.
-- `child-welfare-topic-map.html` — an earlier two tab version, kept for reference.
-- `horizons-map-combined.html` — an earlier two view version, topic ecosystem and scholarly network.
-- `horizons-priority-ballot.html` — the priority activity: each faculty ranks their top three of seven macro areas and copies a line to send back.
+## Publish on GitHub Pages
 
-## Update it
+1. Open the repository, then **Settings > Pages**.
+2. Under **Build and deployment**, set **Source** to *Deploy from a branch*, choose the `main` branch and the `/root` folder, then **Save**.
+3. Wait about a minute. The live link appears at the top of the Pages settings.
+4. To update later, replace `index.html` or edit it in the browser with the pencil icon and commit. Pages rebuilds automatically.
 
-The disciplinary placements, per person topics, and citation totals are a working draft built from public profiles, not a survey of members. Corrections are welcome; send changes to the initiative lead and the map will be regenerated.
+## Acknowledgment
 
-## Credits
+This is the first research initiative on foster care and aging out research under the HORIZONS interdisciplinary research framework in the Responsible Data Analytics Hub at the School of Education and Human Development. It stands on the generosity of Necco, TableSense, and MindShare, whose partnership and data set the ground for this work. TableSense provided the funding that made this research possible.
 
-Responsible Data Analytics Hub, School of Education and Human Development, University of Miami. Framework: The Three Horizons Model, Synthesize, Experiment, Translate.
+## Notes
+
+Disciplinary placements, per-person topics, and citation totals are a working draft built from public profiles, not a survey of members. Send corrections to the initiative lead and the map will be regenerated.
